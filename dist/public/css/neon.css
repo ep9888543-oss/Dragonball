@@ -1,0 +1,89 @@
+:root {
+  --p1: #ff2e63;
+  --p2: #08d9ff;
+  --texto: #e8e8ff;
+}
+
+body {
+  background:
+    linear-gradient(rgba(7, 7, 20, .65), rgba(7, 7, 20, .8)),
+    url('../img/ecenario.jpg') center / cover no-repeat fixed !important;
+  color: var(--texto);
+  font-family: 'Orbitron', sans-serif;
+  min-height: 100vh;
+}
+
+/* Título */
+h1 {
+  color: #ffd400 !important;
+  text-shadow: 0 0 18px #ff9d00;
+  letter-spacing: 3px;
+}
+
+/* Colores por jugador */
+#nombres .col-md-5:first-child, #py1, #batalla > div:first-child { --c: var(--p1); }
+#nombres .col-md-5:last-child,  #py2, #batalla > div:last-child  { --c: var(--p2); }
+
+/* Nombres */
+#nombres .form-floating {
+  border: 2px solid var(--c) !important;
+  background: rgba(10, 10, 30, .6);
+  box-shadow: 0 0 12px var(--c);
+}
+#nombres .form-control {
+  background: transparent;
+  color: var(--texto);
+  border: none;
+  box-shadow: none;
+}
+#nombres label { color: var(--c) !important; }
+#nombres .form-floating > label::after { background: transparent !important; }
+
+/* Selección de personajes */
+#py1, #py2 {
+  background: rgba(10, 10, 30, .65);
+  backdrop-filter: blur(4px);
+  border: 1px solid #333a66;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 25px rgba(80, 80, 255, .15);
+}
+#py1 p, #py2 p { color: var(--c) !important; }
+
+#py1 img, #py2 img {
+  cursor: pointer;
+  transition: .2s;
+}
+#py1 img.bg-danger  { background-color: var(--p1) !important; }
+#py2 img.bg-primary { background-color: var(--p2) !important; }
+
+#py1 img:hover, #py2 img:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 0 16px var(--c);
+}
+
+/* Botones Aceptar */
+#btn_player1, #btn_player2 {
+  background-color: var(--c) !important;
+  border: none !important;
+  font-family: inherit;
+  font-weight: 700;
+  box-shadow: 0 0 14px var(--c);
+}
+#btn_player1:hover, #btn_player2:hover { filter: brightness(1.15); }
+
+/* ---------- Área de batalla ---------- */
+#batalla > div {
+  background: rgba(10, 10, 30, .65) !important;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--c) !important;
+  box-shadow: 0 0 20px var(--c);
+}
+#batalla h2 { color: var(--c) !important; text-shadow: 0 0 10px var(--c); }
+#batalla .text-muted { color: #9aa0d0 !important; }
+#batalla hr { border-color: #555a8a; }
+#batalla .progress {
+  background: #0d0d1f;
+  border: 1px solid #333a66;
+}
+#batalla .btn { font-family: inherit; font-weight: 700; }

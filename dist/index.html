@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAGON BALL GAME</title>
+
+    <!-- Bootstrap CSS y FontAwesome -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./public/css/neon.css">
+</head>
+
+<body class="bg-light">
+
+    <div class="container my-4">
+
+        <!-- Título -->
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <h1 class="text-danger display-3 fw-bold">
+                    <i class="fa-solid fa-dragon"></i> DRAGON BALL GAME <i class="fa-solid fa-dragon"></i>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Nombres Jugadores -->
+        <div id="nombres" class="row justify-content-around mt-4">
+
+            <div class="col-md-5">
+                <div class="form-floating border border-danger rounded mb-3">
+                    <input type="text" id="player1" class="form-control" placeholder="Jugador 1">
+                    <label class="text-danger" for="player1">
+                        <i class="fa-solid fa-user me-2"></i>Jugador 1
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="form-floating border border-primary rounded mb-3">
+                    <input type="text" id="player2" class="form-control" placeholder="Jugador 2">
+                    <label class="text-primary" for="player2">
+                        <i class="fa-solid fa-user me-2"></i>Jugador 2
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Selección Personajes -->
+        <div class="row justify-content-around mt-3">
+
+            <!-- Selección Jugador 1 -->
+            <div id="py1" class="col-md-5 text-center">
+
+                <p class="text-danger fw-bold">Seleccionar personaje</p>
+
+                <div class="row mt-3 g-2">
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-danger border border-danger"
+                            src="./public/img/seleccion/01.png" alt="Vegitto" id="p1_01" data-personaje="Vegitto">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-danger border border-danger"
+                            src="./public/img/seleccion/03.png" alt="Trunks" id="p1_03" data-personaje="Trunks">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-danger border border-danger"
+                            src="./public/img/seleccion/06.png" alt="Gohan" id="p1_06" data-personaje="Gohan">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-danger border border-danger"
+                            src="./public/img/seleccion/05.png" alt="Goku" id="p1_05" data-personaje="Goku">
+                    </div>
+                </div>
+
+                <button id="btn_player1" type="button" class="btn btn-danger w-100 mt-4">
+                    Aceptar <i class="fa-solid fa-gamepad"></i>
+                </button>
+
+            </div>
+
+
+            <!-- Selección Jugador 2 -->
+            <div id="py2" class="col-md-5 text-center">
+
+                <p class="text-primary fw-bold">Seleccionar personaje</p>
+
+                <div class="row mt-3 g-2">
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-primary border border-primary"
+                            src="./public/img/seleccion/02.png" alt="Vegeta" id="p2_02" data-personaje="Vegeta">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-primary border border-primary"
+                            src="./public/img/seleccion/08.png" alt="Cell" id="p2_08" data-personaje="Cell">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-primary border border-primary"
+                            src="./public/img/seleccion/04.png" alt="Piccolo" id="p2_04" data-personaje="Piccolo">
+                    </div>
+                    <div class="col-3">
+                        <img class="img-fluid rounded-circle bg-primary border border-primary"
+                            src="./public/img/seleccion/07.png" alt="Gogeta" id="p2_07" data-personaje="Gogeta">
+                    </div>
+                </div>
+
+                <button id="btn_player2" type="button" class="btn btn-primary w-100 mt-4">
+                    Aceptar <i class="fa-solid fa-gamepad"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Área de Batalla (oculta hasta que ambos jugadores acepten) -->
+        <div id="batalla" class="row justify-content-between mt-5 d-none">
+
+            <!-- Interfaz Jugador 1 -->
+            <div class="col-md-5 border border-danger rounded p-3 bg-white mb-4">
+
+                <h2 id="username1" class="text-danger h4">Jugador 1</h2>
+
+                <p id="personaje1" class="lead fs-5 text-muted">Personaje</p>
+
+                <img id="img1" src="" class="img-fluid d-block mx-auto mb-3" style="max-height: 150px;" alt="">
+
+                <label for="vida1" class="text-success fw-bold">Vida</label>
+                <div class="progress mb-2" role="progressbar">
+                    <div id="vida1" class="progress-bar bg-success" style="width: 100%">100%</div>
+                </div>
+
+                <label for="ki1" class="text-warning fw-bold">Ki</label>
+                <div class="progress mb-2" role="progressbar">
+                    <div id="ki1" class="progress-bar bg-warning text-dark" style="width: 100%">100%</div>
+                </div>
+
+                <label for="energia1" class="text-info fw-bold">Energía</label>
+                <div class="progress mb-3" role="progressbar">
+                    <div id="energia1" class="progress-bar bg-info" style="width: 100%">100%</div>
+                </div>
+
+                <hr>
+
+                <div class="row g-2">
+                    <div class="col-6 col-sm-3">
+                        <button id="atq_basico1" type="button" class="btn btn-warning w-100 btn-sm">
+                            Ataque básico
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="atq_esp1" type="button" class="btn btn-danger w-100 btn-sm">
+                            Ataque especial
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="cargar_ki1" type="button" class="btn btn-info w-100 btn-sm text-white">
+                            Cargar Ki
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="semilla1" type="button" class="btn btn-success w-100 btn-sm">
+                            Semilla <span id="semillas1" class="badge bg-dark">2</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Interfaz Jugador 2 -->
+            <div class="col-md-5 border border-primary rounded p-3 bg-white mb-4">
+
+                <h2 id="username2" class="text-primary h4">Jugador 2</h2>
+
+                <p id="personaje2" class="lead fs-5 text-muted">Personaje</p>
+
+                <img id="img2" src="" class="img-fluid d-block mx-auto mb-3" style="max-height: 150px;" alt="">
+
+                <label for="vida2" class="text-success fw-bold">Vida</label>
+                <div class="progress mb-2" role="progressbar">
+                    <div id="vida2" class="progress-bar bg-success" style="width: 100%">100%</div>
+                </div>
+
+                <label for="ki2" class="text-warning fw-bold">Ki</label>
+                <div class="progress mb-2" role="progressbar">
+                    <div id="ki2" class="progress-bar bg-warning text-dark" style="width: 100%">100%</div>
+                </div>
+
+                <label for="energia2" class="text-info fw-bold">Energía</label>
+                <div class="progress mb-3" role="progressbar">
+                    <div id="energia2" class="progress-bar bg-info" style="width: 100%">100%</div>
+                </div>
+
+                <hr>
+
+                <div class="row g-2">
+                    <div class="col-6 col-sm-3">
+                        <button id="atq_basico2" type="button" class="btn btn-warning w-100 btn-sm">
+                            Ataque básico
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="atq_esp2" type="button" class="btn btn-danger w-100 btn-sm">
+                            Ataque especial
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="cargar_ki2" type="button" class="btn btn-info w-100 btn-sm text-white">
+                            Cargar Ki
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <button id="semilla2" type="button" class="btn btn-success w-100 btn-sm">
+                            Semilla <span id="semillas2" class="badge bg-dark">2</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./bundle.js"></script>
+
+</body>
+</html>
