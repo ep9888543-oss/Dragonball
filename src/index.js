@@ -3,7 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Swal from "sweetalert2";
 import Acciones from "./Acciones.js";
-import { atk_basico, atk_especial, cargar_ki } from './interfaz.js';
+import { atk_basico, atk_especial, cargar_ki, usar_semilla } from './interfaz.js';
 
 const btn_player1 = document.getElementById("btn_player1");
 const btn_player2 = document.getElementById("btn_player2");
@@ -54,7 +54,10 @@ const botones2 = [btn_atk2, btn_esp2, btn_ki2, btn_semilla2];
 let pj1 = "", pj2 = "";
 let jugador1, jugador2;
 let combate_iniciado = false;
+let combate_terminado = false;
 let turno = 1;
+// Turnos jugados por cada jugador (el ataque especial se habilita desde el 2.º turno)
+const turnos_jugados = { 1: 0, 2: 0 };
 
 const msj_error = (msj) => {
     Swal.fire({
@@ -90,10 +93,52 @@ const asignar_turno = (numero) => {
     turno = numero;
     botones1.forEach((boton) => { boton.disabled = numero !== 1; });
     botones2.forEach((boton) => { boton.disabled = numero !== 2; });
+
+    // El ataque especial queda bloqueado hasta el segundo turno de cada jugador
+    if (turnos_jugados[1] < 1) btn_esp1.disabled = true;
+    if (turnos_jugados[2] < 1) btn_esp2.disabled = true;
 };
 
 const pasar_turno = () => {
     asignar_turno(turno === 1 ? 2 : 1);
+};
+
+// Revisa si algún jugador se quedó sin vida y, de ser así, termina el combate
+const finalizar_si_corresponde = () => {
+    if (jugador1.getVida() > 0 && jugador2.getVida() > 0) return false;
+
+    combate_terminado = true;
+    [...botones1, ...botones2].forEach((boton) => { boton.disabled = true; });
+
+    let texto;
+    if (jugador1.getVida() <= 0 && jugador2.getVida() <= 0) {
+        texto = "¡Empate! Ambos quedaron sin vida";
+    } else {
+        const ganador = jugador1.getVida() > 0 ? nombre1.value : nombre2.value;
+        texto = `${ganador} es el ganador`;
+    }
+
+    // Espera a que termine la alerta del ataque (1500 ms)
+    setTimeout(() => {
+        Swal.fire({
+            title: "¡Fin del combate!",
+            text: texto,
+            icon: "success",
+            confirmButtonText: "Jugar de nuevo",
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(() => location.reload());
+    }, 1600);
+
+    return true;
+};
+
+// Actualiza las barras, revisa el fin del combate y, si sigue, pasa el turno
+const terminar_accion = () => {
+    turnos_jugados[turno]++;
+    barras();
+    if (finalizar_si_corresponde()) return;
+    pasar_turno();
 };
 
 const cuenta_regresiva = () => {
@@ -157,6 +202,8 @@ const remover_seleccion = (color, ...elementos) => {
 };
 
 const juego_listo = () => {
+    // Si el combate ya terminó, no se permite ninguna acción
+    if (combate_terminado) return false;
     if (jugador1 && jugador2 && combate_iniciado) return true;
     msj_error("¡El juego no ha comenzado!");
     return false;
@@ -224,8 +271,7 @@ btn_player2.addEventListener("click", () => {
 btn_atk1.addEventListener("click", () => {
     if (!juego_listo()) return;
     atk_basico(jugador1, jugador2);
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_esp1.addEventListener("click", () => {
@@ -233,33 +279,28 @@ btn_esp1.addEventListener("click", () => {
     if (!atk_especial(jugador1, jugador2)) {
         return msj_error("No tienes suficiente Ki o Energía para el ataque especial");
     }
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_ki1.addEventListener("click", () => {
     if (!juego_listo()) return;
     cargar_ki(jugador1);
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_semilla1.addEventListener("click", () => {
     if (!juego_listo()) return;
-    if (jugador1.getSemilla() <= 0) {
+    if (!usar_semilla(jugador1)) {
         return msj_error("¡No te quedan semillas del ermitaño!");
     }
-    jugador1.curacion();
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 // --- ACCIONES JUGADOR 2 ---
 btn_atk2.addEventListener("click", () => {
     if (!juego_listo()) return;
     atk_basico(jugador2, jugador1);
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_esp2.addEventListener("click", () => {
@@ -267,23 +308,19 @@ btn_esp2.addEventListener("click", () => {
     if (!atk_especial(jugador2, jugador1)) {
         return msj_error("No tienes suficiente Ki o Energía para el ataque especial");
     }
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_ki2.addEventListener("click", () => {
     if (!juego_listo()) return;
     cargar_ki(jugador2);
-    barras();
-    pasar_turno();
+    terminar_accion();
 });
 
 btn_semilla2.addEventListener("click", () => {
     if (!juego_listo()) return;
-    if (jugador2.getSemilla() <= 0) {
+    if (!usar_semilla(jugador2)) {
         return msj_error("¡No te quedan semillas del ermitaño!");
     }
-    jugador2.curacion();
-    barras();
-    pasar_turno();
+    terminar_accion();
 });

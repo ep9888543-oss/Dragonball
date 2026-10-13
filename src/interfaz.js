@@ -84,16 +84,21 @@ const atk_especial = (j1, j2) => {
     mostrar_ataque(datos.atk_especial, `./public/img/${j1.getPersonaje()}/especial.png`, datos.fondo);
     return true;
 };
+
 const cargar_ki = (j1) => {
     j1.cargaEnergia();
-
-    Swal.fire({
-        icon: "success",
-        title: "¡Cargando Ki!",
-        text: `${j1.getNombre ? j1.getNombre() : "El jugador"} recuperó Ki y Energía`,
-        timer: 1200,
-        showConfirmButton: false
-    });
+    const datos = datosDe(j1);
+    mostrar_ataque("¡Cargando Ki!", `./public/img/${j1.getPersonaje()}/energia.png`, datos.fondo);
 };
 
-export { atk_basico, atk_especial, cargar_ki };
+const usar_semilla = (j1) => {
+    // curacion devuelve false si no quedan semillas
+    if (!j1.curacion()) {
+        return false;
+    }
+    const datos = datosDe(j1);
+    mostrar_ataque("¡Semilla del ermitaño!", `./public/img/${j1.getPersonaje()}/curar.png`, datos.fondo);
+    return true;
+};
+
+export { atk_basico, atk_especial, cargar_ki, usar_semilla };
