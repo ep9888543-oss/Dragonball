@@ -1,5 +1,6 @@
 const path = require('path');
 
+static: './',
 module.exports = {
   mode: 'development', // Modo desarrollo
   entry: './src/index.js', // Archivo de entrada
